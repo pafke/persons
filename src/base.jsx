@@ -1,3 +1,2 @@
-console.log('test');
-console.log('test2');
-console.log('test3');
+import React from 'react';
+import ReactDOM from 'react-dom';

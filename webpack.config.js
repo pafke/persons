@@ -12,7 +12,7 @@ module.exports = {
         port: 3333
     },
     module: {
-        /*loaders: [
+        loaders: [
             {
                 test: /\.jsx$/,
                 exclude: /node_modules/,
@@ -21,7 +21,7 @@ module.exports = {
                     presets: ['es2015', 'react']
                 }
             }
-        ]*/
+        ]
     },
     plugins: [
         //new webpack.optimize.UglifyJsPlugin({minimize: true})
