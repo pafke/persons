@@ -55,6 +55,10 @@ var Person = React.createClass({
 
 var Base = React.createClass({
 	getInitialState: function() {
+        for (var i = 0; i < jsonData.length; i++) {
+            var dateToTimestap = jsonData[i].createdAt
+            jsonData[i].timestamp = (new Date(dateToTimestap).getTime());
+        }
         return { clients: jsonData, activeRow: false };
     },
     sortBy: function(parameter) {
@@ -92,9 +96,9 @@ var Base = React.createClass({
             		<thead>
             			<tr>
 	            			<th onClick={() => this.sortBy(['_id'])}>Id</th>
-	            			<th onClick={() => this.sortBy(['name','first','last'])}>Name</th>
+	            			<th onClick={() => this.sortBy(['name'])}>Name</th>
 	            			<th onClick={() => this.sortBy(['createdAt'])}>Date</th>
-	            			<th onClick={() => this.sortBy(['createdBy','first','last'])}>Owner</th>
+	            			<th onClick={() => this.sortBy(['createdBy'])}>Owner</th>
 	            			<th>Description</th>
             			</tr>
             		</thead>
