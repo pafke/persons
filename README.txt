@@ -11,5 +11,4 @@ STEPS REQUIRED TO RUN THIS PROJECT:
 	Production:
 	1. Open the command line interface(CLI) of your choice in this folder
 	2. Type "npm run build" to create the file "bundle.js" and the minified css
-	3. In the folder "build" open index.html in the editor of your choice and change  href="css/style.css" to  href="css/style.min.css"
-	4. Move the contents of the folder build to the webserver of your choice to deploy
+	3. Move the contents of the folder build to the webserver of your choice to deploy
