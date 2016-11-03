@@ -62,18 +62,28 @@ var Base = React.createClass({
         return { clients: jsonData, activeRow: false };
     },
     sortBy: function(parameter) {
-    	var sortParam;
-    	if(parameter.length  === 1) {
-    		sortParam = parameter[0];
-    	}
-    	function compare(a,b) {
-			if (a[sortParam] < b[sortParam])
-				return -1;
-			if (a[sortParam] > b[sortParam])
-				return 1;
-				return 0;
-		}
-		jsonData.sort(compare);
+
+        if(parameter == 'name' || parameter == 'createdBy') {
+            function compare(a,b) {
+                if (a[parameter].first+a[parameter].last < b[parameter].first+a[parameter].last)
+                    return -1;
+                if (a[parameter].first+a[parameter].last > b[parameter].first+a[parameter].last)
+                    return 1;
+                    return 0;
+            }
+            jsonData.sort(compare);
+        } else {
+            function compare(a,b) {
+                if (a[parameter] < b[parameter])
+                    return -1;
+                if (a[parameter] > b[parameter])
+                    return 1;
+                    return 0;
+            }
+            jsonData.sort(compare);
+        }
+
+
         this.setState({clients: jsonData});
     },
     toggleActive: function(activeRow) {
@@ -97,7 +107,7 @@ var Base = React.createClass({
             			<tr>
 	            			<th onClick={() => this.sortBy(['_id'])}>Id</th>
 	            			<th onClick={() => this.sortBy(['name'])}>Name</th>
-	            			<th onClick={() => this.sortBy(['createdAt'])}>Date</th>
+	            			<th onClick={() => this.sortBy(['timestamp'])}>Date</th>
 	            			<th onClick={() => this.sortBy(['createdBy'])}>Owner</th>
 	            			<th>Description</th>
             			</tr>
