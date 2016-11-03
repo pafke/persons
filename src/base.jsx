@@ -3,31 +3,93 @@ import ReactDOM from 'react-dom';
 
 import jsonData from './assets/test.json';
 
+var Activerow = React.createClass({
+	render: function() {
+    var activePerson = this.props.activePerson;
+        return (
+            <div>
+                <table class="table">
+                    <tbody>
+                {
+                    Object.keys(activePerson).map((version, i) => {
+                        if(typeof activePerson[version] == 'object'){
+                            activePerson[version] = activePerson[version].first+' '+activePerson[version].last;
+                        }
+                        return (
+                                    <tr key={i}>
+                                        <td>
+                                            {version}
+                                        </td>
+                                        <td>
+                                            {activePerson[version]}
+                                        </td>
+                                    </tr>
+                        )
+                    })
+                }
+                    </tbody>
+                </table>
+            </div>
+        )
+    }
+});
+
+var Person = React.createClass({
+	setActive: function() {
+		this.props.toggleActive(this.props.person._id);
+	},
+	render: function() {
+        return (
+        	<tr onClick={this.setActive}>
+            	<td>{this.props.person._id}</td>
+            	<td>{this.props.person.name.first} {this.props.person.name.last}</td>
+            	<td>{this.props.person.createdAt}</td>
+            	<td>{this.props.person.createdBy.first} {this.props.person.createdBy.last}</td>
+            	<td>{this.props.person.shortDescription}</td>
+            </tr>
+        )
+    }
+});
+
 var Base = React.createClass({
 	getInitialState: function() {
-        return { clients: jsonData };
+        return { clients: jsonData, activeRow: false };
     },
     sortBy: function(parameter) {
+    	var sortParam;
+    	if(parameter.length  === 1) {
+    		sortParam = parameter[0];
+    	}
     	function compare(a,b) {
-			if (a[parameter] < b[parameter])
+			if (a[sortParam] < b[sortParam])
 				return -1;
-			if (a[parameter] > b[parameter])
+			if (a[sortParam] > b[sortParam])
 				return 1;
 				return 0;
 		}
 		jsonData.sort(compare);
         this.setState({clients: jsonData});
     },
+    toggleActive: function(activeRow) {
+    	for (var i = 0; i < jsonData.length; i++) {
+    		if(jsonData[i]._id == activeRow) {
+    			this.setState({activeRow: jsonData[i]});
+    		}
+    	}
+    },
     render: function() {
         return (
-            <div className="root-container">
+            <div className="root-content">
+            	<div className="person-detail">
+            		{ this.state.activeRow ? <Activerow activePerson={this.state.activeRow} /> : null }
+            	</div>
             	<table className="table">
             		<thead>
             			<tr>
-	            			<th onClick={() => this.sortBy('_id')}>Id</th>
-	            			<th onClick={() => this.sortBy('name','first','last')}>Name</th>
-	            			<th onClick={() => this.sortBy('createdAt')}>Date</th>
-	            			<th onClick={() => this.sortBy('createdBy','first','last')}>Owner</th>
+	            			<th onClick={() => this.sortBy(['_id'])}>Id</th>
+	            			<th onClick={() => this.sortBy(['name','first','last'])}>Name</th>
+	            			<th onClick={() => this.sortBy(['createdAt'])}>Date</th>
+	            			<th onClick={() => this.sortBy(['createdBy','first','last'])}>Owner</th>
 	            			<th>Description</th>
             			</tr>
             		</thead>
@@ -35,13 +97,7 @@ var Base = React.createClass({
             			{
                             this.state.clients.map((person, i) => {
                                 return (
-                                    <tr key={person._id}>
-                                    	<td>{person._id}</td>
-                                    	<td>{person.name.first} {person.name.last}</td>
-                                    	<td>{person.createdAt}</td>
-                                    	<td>{person.createdBy.first} {person.createdBy.last}</td>
-                                    	<td>{person.shortDescription}</td>
-                                    </tr>
+                                    <Person key={person._id} toggleActive={this.toggleActive} person={person} />
                                 )
                             })
                         }
