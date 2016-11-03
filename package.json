@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack && npm run uglify",
-    "dev": "webpack-dev-server",
-    "uglify": "uglifycss ./build/css/style.css > ./build/css/style.min.css"
+    "build": "webpack && npm run stylemin && npm run uglify",
+    "dev": "npm run stylenorm && webpack-dev-server",
+    "uglify": "uglifycss ./build/css/style.css > ./build/css/style.min.css",
+    "stylemin": "node ./npm_scripts/style_min.js",
+    "stylenorm": "node ./npm_scripts/style.js"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +21,7 @@
     "json-loader": "^0.5.4",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
+    "replace-in-file": "^2.0.1",
     "uglifycss": "0.0.25",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"
