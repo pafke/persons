@@ -8,23 +8,25 @@ var Activerow = React.createClass({
     var activePerson = this.props.activePerson;
         return (
             <div>
-                <table class="table">
+                <table className="table">
                     <tbody>
                 {
                     Object.keys(activePerson).map((version, i) => {
-                        if(typeof activePerson[version] == 'object'){
-                            activePerson[version] = activePerson[version].first+' '+activePerson[version].last;
+                        if(version != 'active') {
+                            if(typeof activePerson[version] == 'object'){
+                                activePerson[version] = activePerson[version].first+' '+activePerson[version].last;
+                            }
+                            return (
+                                <tr key={i}>
+                                    <td>
+                                        {version}
+                                    </td>
+                                    <td>
+                                        {activePerson[version]}
+                                    </td>
+                                </tr>
+                            )
                         }
-                        return (
-                                    <tr key={i}>
-                                        <td>
-                                            {version}
-                                        </td>
-                                        <td>
-                                            {activePerson[version]}
-                                        </td>
-                                    </tr>
-                        )
                     })
                 }
                     </tbody>
@@ -40,7 +42,7 @@ var Person = React.createClass({
 	},
 	render: function() {
         return (
-        	<tr onClick={this.setActive}>
+        	<tr className={this.props.person.active} onClick={this.setActive}>
             	<td>{this.props.person._id}</td>
             	<td>{this.props.person.name.first} {this.props.person.name.last}</td>
             	<td>{this.props.person.createdAt}</td>
@@ -73,8 +75,11 @@ var Base = React.createClass({
     toggleActive: function(activeRow) {
     	for (var i = 0; i < jsonData.length; i++) {
     		if(jsonData[i]._id == activeRow) {
+                jsonData[i].active = 'active';
     			this.setState({activeRow: jsonData[i]});
-    		}
+    		}else {
+                jsonData[i].active = false;
+            }
     	}
     },
     render: function() {
