@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "dev" : "webpack-dev-server"
+    "build": "webpack && npm run uglify",
+    "dev": "webpack-dev-server",
+    "uglify": "uglifycss ./build/css/style.css > ./build/css/style.min.css"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,7 @@
     "json-loader": "^0.5.4",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
+    "uglifycss": "0.0.25",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"
   }
